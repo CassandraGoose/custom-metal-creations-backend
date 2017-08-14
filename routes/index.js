@@ -1,9 +1,19 @@
 var express = require('express');
 var router = express.Router();
+var queries = require('../db/queries')
+const knex = require('../db/knex')
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+router.get('/posts', function(req, res) {
+  knex('post')
+  .then(posts => {
+    res.json(posts)
+  })
 });
+
+router.post('/post', function(req, res) {
+  queries.createPost(req.body).then(posts => {
+      res.json(posts[0])
+    })
+})
 
 module.exports = router;
