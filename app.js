@@ -4,9 +4,14 @@ var favicon = require('serve-favicon');
 var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var users = require('./routes/users');
-const cors = require('cors')
+var asks = require('./routes/asks')
+var makeask = require('./routes/makeask')
+var newpost = require('./routes/newpost')
 
+const cors = require('cors')
+var authMiddleware = require('./auth/auth')
 var app = express();
+
 
 app.use(cors())
 
@@ -16,6 +21,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/ask', makeask)
+app.use('/asks', asks)
+app.use('/post', newpost)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
