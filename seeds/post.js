@@ -6,7 +6,9 @@ exports.seed = function(knex, Promise) {
       const aPost = [
         {
           id: 1,
+          title: 'this is a title',
           img_url: 'no image',
+          feeling: 'butts',
           text: 'this is the first post'
       }]
       return knex('post').insert(aPost)
