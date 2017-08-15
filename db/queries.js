@@ -21,5 +21,8 @@ module.exports = {
   },
   delete(id) {
     return knex('post').where('id', id).del();
+  },
+  createAsk(ask) {
+    return knex('ask').insert(ask, '*')
   }
 }
