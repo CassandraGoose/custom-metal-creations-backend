@@ -11,10 +11,14 @@ router.get('/', function(req, res, next) {
 })
 
 router.post('/login', (req, res, next) => {
+  console.log('in login');
   if (req.body) {
+    console.log(req.body);
     queries.getOneByEmail(req.body.email)
       .then(person => {
         if (person) {
+          console.log('in bcrypt');
+          console.log(person);
           bcrypt.compare(req.body.password, person.password)
             .then((result) => {
               if (result) {
