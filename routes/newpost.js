@@ -4,6 +4,7 @@ var queries = require('../db/queries')
 const knex = require('../db/knex')
 
 router.post('/', function(req, res) {
+  console.log(req.body);
   queries.createPost(req.body).then(posts => {
       res.json(posts[0])
     })

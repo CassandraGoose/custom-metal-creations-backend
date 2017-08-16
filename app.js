@@ -22,8 +22,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/', index);
 app.use('/users', users);
 app.use('/ask', makeask)
-app.use('/asks', asks)
-app.use('/post', newpost)
+app.use('/asks', authMiddleware.allowAccess, asks)
+app.use('/post', authMiddleware.allowAccess, newpost)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

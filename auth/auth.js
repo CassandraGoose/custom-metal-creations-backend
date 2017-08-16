@@ -1,9 +1,8 @@
 function allowAccess(req, res, next) {
-  if(req.person.id === 47536){
+  if(req.headers.Authorization == 47536){
     next()
   } else {
-    res.status(401)
-    next(new Error('Un-Authorized'))
+    return res.status(401).json({message: 'Unauthorized user.'})
   }
   next()
 }
