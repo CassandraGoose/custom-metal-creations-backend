@@ -10,30 +10,50 @@ router.get('/', function(req, res, next) {
   })
 })
 
-router.post('/login', (req, res, next) => {
-  if (req.body) {
-    console.log(req.body);
-    queries.getOneByEmail(req.body.email)
+function validPerson(user) {
+  const validName = typeof user.username === 'string'
+  const validPassword = typeof user.password === 'string' &&
+    user.password.trim() != '' &&
+    user.password.trim().length >= 6;
+  return validName && validPassword
+}
+
+
+router.post('/login', function(req, res, next) {
+  if (validPerson(req.body)) {
+    queries.getOneByUserName(req.body.username)
       .then(person => {
         if (person) {
           bcrypt.compare(req.body.password, person.password)
-            .then((result) => {
+            .then(function(result) {
               if (result) {
+                var isSecure = req.app.get('env') != 'development';
+                res.cookie('person_id', person.id, {
+                  httpOnly: true,
+                  secure: isSecure,
+                  signed: true
+                })
                 res.json({
-                  id: person.id,
-                  message: 'ok'
+                  message: 'Approved'
                 })
               } else {
-                next(new Error('Invalid login'))
+                next(new Error('invalid login'))
               }
             })
         } else {
-          next(new Error('Invalid login'))
+          next(new Error('invalid login'))
         }
       })
   } else {
-    next(new Error('Invalid login'))
+    next(new Error('Invalid Login'))
   }
+})
+
+router.get('/logout', (req, res, next) => {
+  res.clearCookie('person_id')
+  res.json({
+    message: 'cookie cleared'
+  })
 })
 
 module.exports = router;

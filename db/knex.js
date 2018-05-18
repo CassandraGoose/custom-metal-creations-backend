@@ -1,4 +1,4 @@
-var environment = process.env.NODE_ENV || 'development';
+var environment = process.env.DATABASE_URL || 'development';
 console.log(environment)
 var knexConfig = require('../knexfile')
 var config = knexConfig[environment];

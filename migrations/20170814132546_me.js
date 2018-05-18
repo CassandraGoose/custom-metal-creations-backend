@@ -1,14 +1,14 @@
 
 exports.up = function(knex, Promise) {
   return knex.schema
-  .createTable('me', function(table) {
+  .createTable('people', function(table) {
     table.integer('id').primary()
-    table.string('email')
+    table.string('username')
     table.string('password')
   })
 };
 
 exports.down = function(knex, Promise) {
   return knex.schema
-  .dropTableIfExists('me')
+  .dropTableIfExists('people')
 };

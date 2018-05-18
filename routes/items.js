@@ -5,9 +5,9 @@ const knex = require('../db/knex')
 
 router.get('/', function(req, res) {
   console.log(req.body);
-  knex('ask')
-  .then(asks => {
-    res.json(asks)
+  knex('item')
+  .then(items => {
+    res.json(items)
   })
 })
 

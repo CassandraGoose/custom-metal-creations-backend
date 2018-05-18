@@ -1,13 +1,25 @@
-function allowAccess(req, res, next) {
-  if(req.headers.Authorization == 47536){
+function ensureLogginIn(req, res, next) {
+  console.log(req.signedCookies);
+  //is it people_id or person_id... i just dunno
+  if (req.signedCookies.person_id) {
     next()
   } else {
-    return res.status(401).json({message: 'Unauthorized user.'})
+    res.status(401)
+    next(new Error('Un-AUTHORIZED'))
   }
-  next()
+}
+
+function allowAccess(req, res, next) {
+  if (req.signedCookies.person_id == req.params.id) {
+    next()
+  } else {
+    res.status(401)
+    next(new Error('Un-Authorized'))
+  }
 }
 
 
 module.exports = {
+  ensureLogginIn,
   allowAccess
 }

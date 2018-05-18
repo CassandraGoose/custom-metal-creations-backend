@@ -10,11 +10,11 @@ module.exports = {
   getOne(id) {
     return knex('post').where('id', id).first();
   },
-  getOneByEmail(email) {
-    return knex('me').where('email', email).first()
+  getOneByUserName(username) {
+    return knex('people').where('username', username).first()
   },
-  createPost(post) {
-    return knex('post').insert(post, '*');
+  newItem(item) {
+    return knex('item').insert(item, '*');
   },
   update(id, post) {
     return knex('post').where('id', id).update(post, '*');

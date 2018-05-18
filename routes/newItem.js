@@ -3,10 +3,9 @@ var router = express.Router();
 var queries = require('../db/queries')
 const knex = require('../db/knex')
 
-router.post('/', function(req, res) {
-  console.log(req.body);
-  queries.createPost(req.body).then(posts => {
-      res.json(posts[0])
+router.post('/new-item', function(req, res) {
+  queries.createItem(req.body).then(items => {
+      res.json(items[0])
     })
 })
 

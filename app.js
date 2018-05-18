@@ -4,14 +4,16 @@ var favicon = require('serve-favicon');
 var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var users = require('./routes/users');
-var asks = require('./routes/asks')
-var makeask = require('./routes/makeask')
-var newpost = require('./routes/newpost')
+var items = require('./routes/items')
+var newItem = require('./routes/newItem')
+var cookieParser = require('cookie-parser');
+require('dotenv').config()
 
 const cors = require('cors')
 var authMiddleware = require('./auth/auth')
 var app = express();
 
+app.use(cookieParser(process.env.COOKIE_SECRET))
 
 app.use(cors())
 
@@ -21,9 +23,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/', index);
 app.use('/users', users);
-app.use('/ask', makeask)
-app.use('/asks', authMiddleware.allowAccess, asks)
-app.use('/post', authMiddleware.allowAccess, newpost)
+app.use('/items', items)
+app.use('/new-item', authMiddleware.allowAccess, newItem)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
