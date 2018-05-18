@@ -1,1 +1,1 @@
-module.exports = require('knex')(require('./knexfile')[process.env.DATABASE_URL || 'development'])
+module.exports = require('knex')(require('./knexfile')[process.env.ENVIRONMENT || 'development'])
