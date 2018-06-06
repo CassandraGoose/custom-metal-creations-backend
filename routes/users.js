@@ -3,6 +3,7 @@ var router = express.Router();
 var queries = require('../db/queries')
 const bcrypt = require('bcrypt')
 const knex = require('knex')
+const jwt = require('jsonwebtoken');
 
 router.get('/', function(req, res, next) {
   res.json({
@@ -27,15 +28,10 @@ router.post('/login', function(req, res, next) {
           bcrypt.compare(req.body.password, person.password)
             .then(function(result) {
               if (result) {
-                var isSecure = req.app.get('env') != 'development';
-                res.cookie('person_id', person.id, {
-                  httpOnly: true,
-                  secure: isSecure,
-                  signed: true
-                })
-                res.json({
-                  message: 'Approved'
-                })
+                jwt.sign(person, 'keyboard_cat', {}, (err, token) => {
+                  if (err) return next(err);
+                  res.json({ token });
+              });
               } else {
                 next(new Error('invalid login'))
               }
