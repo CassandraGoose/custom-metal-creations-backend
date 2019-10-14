@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var queries = require('../db/queries')
-const bcrypt = require('bcrypt')
+// const bcrypt = require('bcrypt')
 const knex = require('knex')
 const jwt = require('jsonwebtoken');
 
@@ -20,30 +20,30 @@ function validPerson(user) {
 }
 
 
-router.post('/login', function(req, res, next) {
-  if (validPerson(req.body)) {
-    queries.getOneByUserName(req.body.username)
-      .then(person => {
-        if (person) {
-          bcrypt.compare(req.body.password, person.password)
-            .then(function(result) {
-              if (result) {
-                jwt.sign(person, 'keyboard_cat', {}, (err, token) => {
-                  if (err) return next(err);
-                  res.json({ token });
-              });
-              } else {
-                next(new Error('invalid login'))
-              }
-            })
-        } else {
-          next(new Error('invalid login'))
-        }
-      })
-  } else {
-    next(new Error('Invalid Login'))
-  }
-})
+// router.post('/login', function(req, res, next) {
+//   if (validPerson(req.body)) {
+//     queries.getOneByUserName(req.body.username)
+//       .then(person => {
+//         if (person) {
+//           bcrypt.compare(req.body.password, person.password)
+//             .then(function(result) {
+//               if (result) {
+//                 jwt.sign(person, 'keyboard_cat', {}, (err, token) => {
+//                   if (err) return next(err);
+//                   res.json({ token });
+//               });
+//               } else {
+//                 next(new Error('invalid login'))
+//               }
+//             })
+//         } else {
+//           next(new Error('invalid login'))
+//         }
+//       })
+//   } else {
+//     next(new Error('Invalid Login'))
+//   }
+// })
 
 router.get('/logout', (req, res, next) => {
   res.clearCookie('person_id')
